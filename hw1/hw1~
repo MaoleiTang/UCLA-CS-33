@@ -1,0 +1,59 @@
+2.64
+/* Return 1 when any odd bit of x equals 1; 0 otherwise. Assume w=32 */
+int any_even_one(unsigned x)
+{  
+   x = x | 0xAAAAAAAA;
+   return (x != 0xAAAAAAAA);
+}
+
+========================================================================
+2.71
+A. The designated byte is not sign extended to be a 32-bit int.
+
+B.
+/* Declaration of data type where 4 bytes are packed into an unsigned */
+typedef unsigned packed_t;
+
+/* Extract byte from word. Return as signed integer */
+int xbyte(packed_t word, int bytenum)
+{
+	return (word << ( (3-bytenum) << 3) ) >>24;
+}
+
+========================================================================
+2.72
+A. Because sizeof() function return to a type t_size which is an unsigned
+   int type. Thus, C implicitly casts the expression containing combinations
+   of sigend and unsigned so that all of arguments are unsigned. Therefore, 
+   the left side of expression is always a nonnegative number and condition
+   test is always true.
+
+B.
+/* Copy integer into buffer if space is available */
+void copy_int(int val, void *buf, int maxbytes){
+     if (maxbytes-(int)sizeof(val) >=0 )
+     	memcpy(buf, (void *) &val, sizeof(val));
+}
+
+=========================================================================
+2.82
+A. (x<y) == (-x>-y)
+   Not always true. When x = INT_MIN, -x = INT_MIN, which causes the
+   expression always yield 0.
+
+B. ((x+y)<<4)+ y-x == 17*y+15*x
+   Always true. We could use associative, commutative and distribute properties
+   to simplify LHS equation. The expression is equal to (x+y)*16+y-x <==>
+   16*x+16*y+y-x <==> 17*y+15*x.
+
+C. ~x+~y+1 == ~(x+y)
+   Always true. LHS = -x-1-y-1+1 =-x-y-1. RHS = -(x+y)-1 =-x-y-1. LHS=RHS
+
+D. (ux-uy) == -(unsigned)(y-x)
+   <===>  (uy-ux) == (unsigned)(y-x)
+   Always true. If we convert the expression like the one above. it show
+
+E. ((x>>2)<<2) <= x
+   Always true. Because (x>>2)<<2 misses the part of x2x1, which equal to 
+   x2*2^1+x1*2^0, the result must be not greater than orignal value. Thus,
+   the expression always yields 1.

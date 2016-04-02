@@ -1,0 +1,54 @@
+//cs 33 hw3
+//using 2nd edition
+
+3.64
+A.
+There is a statement in func prod() call func word_sum(): s2 = word_sum(s1)
+Line 5 is to get value of s2 which is the address of struct str2.
+Line 6 is to get the value of s1.a
+Line 7 is to get the value of s1.p
+
+B.
+------------------------
+|		S2.diff			|
+------------------------
+|		S2.sum 			|  <----------S2
+------------------------
+|		S1.p 			|
+------------------------
+|		S1.a 			|  <----------S1
+------------------------
+|		pointer to S2 	|
+------------------------
+
+C.
+Passing structures as arguments is actullay passing the address of
+the first element of the structure in the memory. And the function obtains 
+each value of structure using the first element's address adding specific
+number of bytes.
+
+D.
+Handling a structure as a return value from a function is actually passing
+the address of the first element of the structure in the memory by treating 
+it as a argument. However, the function directly changes the original value
+of each element using the their address and then store the first element's 
+address in %rax. 
+
+==============================================================================
+3.67
+A.
+e1.p 	0 	offset
+e1.y 	4 	offset
+e2.x	0	offset
+e2.next	4	offset
+
+B.
+struct e1:   8 bytes
+struct e2:   8 bytes
+union  ele:  8 bytes
+
+C.
+void proc (union ele *up)
+{
+	up->next->y = *(up->next->p) - up->x ;
+}

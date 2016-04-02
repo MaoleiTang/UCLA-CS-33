@@ -1,0 +1,61 @@
+//cs 33 hw4
+//2nd edition
+
+2.88
+A.
+Always true. dx is equal to int x converted to double type. Because the
+double type has more precise than type int, two values are exactly 
+same. Therefore, we convert the same values to type float and get the 
+same value finally.
+
+B.
+Not always true. dx-dy is equal to x-y if x-y dose not overflow. If (x-y)
+overflow, such as x=TMIN, y=1.
+
+C.
+Always true. Although addition of double and float number do not obey
+association rule, the orignal value for dx is int type. The sum of two
+int type numbers cannot exceed 33 bits representation limit, which means
+that there is no need for adding two number with rounding. Therefore, 
+there is no rounding error.
+
+D.
+Not always true. Multiplication of double and float number do not obey
+association rule, and product of two orignal int type values can exceed
+52 bits, which means that rounding errors could occur in multiplication.
+1E20 * 1E20 * 0 !=  1E20 * (1E20 * 0), where LHS=positive infinite and 
+RHS=0. 
+
+E.
+Not always true. If either dx or dy equal to 0, the statement cannot
+yield 0.
+
+2.89
+float fpwr2(int x)
+{
+    /* Result exponent and fraction */
+    unsigned exp, frac;
+    unsigned u;
+	if (x < -149) {
+		/* Too small. Return 0.0 */ 
+		exp = 0;
+		frac =  0;
+	} else if (x < - 126 ) {
+		/* Denormalized result */
+		exp =  0;
+		frac =  1<< (149+x);
+	} else if (x < 128) {
+    	/* Normalized result. */
+		exp =  x+127;
+		frac =   0; 
+	} else {
+        /* Too big.  Return +oo */
+	exp =   0x11111111;
+	frac =   0; 
+	}
+
+    /* Pack exp and frac into 32 bits */
+    u = exp << 23 | frac;
+    /* Return as float */
+    return u2f(u);
+}
